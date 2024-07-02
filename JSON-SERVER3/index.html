@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.1/axios.min.js"></script>
+</head>
+<body>
+    <label>Name</label>
+    <input type="text" id="name" /><br><br>
+    <label>Email</label>
+    <input type="text" id="email" /><br><br>
+    <button id="btn">submit</button>
+    <hr>
+    <hr>
+</hr>
+</hr>
+<div id="count"></div>
+</body>
+
+<script>
+    let cont=document.getElementById("count")
+let arr= []
+    async function getValue(){
+        try{
+            let res= await axios.get("http://localhost:8081/user")
+            console.log(res.data)
+            arr=res.data
+            displayData(res.data)
+            }catch(err){
+                console.log(err)
+        }
+    }
+    getValue()
+    function displayData(){
+  count.innerHTML="";
+  arr.forEach((ele)=> {
+      let div=document.createElement("div");
+      let name=document.createElement("h1");
+      name.innerText=ele.name
+      let email=document.createElement("p");
+      email.innerText=ele.email
+      div.append(name,email)
+      count.append(div)      
+ });
+}
+displayData()
+async function postdata(e){
+        e.preventDefault();
+        let obj={
+            name:document.getElementById("name").value,
+            email:document.getElementById("email").value
+
+        };
+        try{
+            let res=await axios.post("http://localhost:8080/user",obj)
+        }
+        catch(error){
+         console.log(error)
+    }}
+
+
+    let btn=document.getElementById("btn");
+    btn.addEventListener("click",postdata)
+
+    
+</script>
+
+
+</html>
