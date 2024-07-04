@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.1/axios.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>User details</h1>
+    <form id="form">
+    <Label>Name</Label><br><br>
+    <input type="text" name="name" id="name" placeholder="Enter your name" ><br><br>
+    <Label>Email</Label><br><br>
+    <input type="email" name="email" id="email" placeholder="Enter your email"><br><br>
+    <Label>Phone</Label><br><br>
+    <input type="number" name="phone" id="phone" placeholder="Enter your phone">
+    <br><br>
+    <button id="btn">submit</button>
+    <hr><hr>
+    <div id="cont"></div>
+</form>
+</div>
+
+</body>
+   <script>
+    let form=document.getElementById("form")
+    let button=document.getElementById("btn")
+    button.addEventListener("click",postData)
+    
+    
+    async function postData(){
+        let obj={
+            name:document.getElementById("name").value,
+            email:document.getElementById("email").value,
+            phone:document.getElementById("phone").value
+
+        }
+      
+        try{
+            let res=await axios.post("http://localhost:8080/user",obj)
+            console.log(res)
+            }catch(error){
+                console.log(error)                
+        }
+    }
+
+
+    async function getdata(){
+        try{
+            let res=await axios.get("http://localhost:8080/user")
+            console.log(res.data)
+           displaydata(res.data)       
+
+        }
+        catch(error){
+            console.log(error)
+
+    }}
+    getdata()
+    function displaydata (data){
+       cont.innerHTML=""
+        data.forEach((ele) => {  
+            let cont=document.getElementById("cont")   
+            let div=document.createElement("div")      
+            let h3=document.createElement("h3")
+            h3.innerText=ele.name
+            let h4=document.createElement("h4")
+            h4.innerText=ele.email
+            let h5=document.createElement("h5")
+            h5.innerText=ele.phone
+            div.append(h3,h4,h5)
+            cont.append(div) 
+        });
+
+
+    } 
+    displaydata ()
+
+    
+     
+
+   </script>
+</html>
